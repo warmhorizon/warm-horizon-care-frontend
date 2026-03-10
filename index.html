@@ -42,6 +42,7 @@
   --muted: #6b8585;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { max-width: 100%; overflow-x: hidden; }
 body { font-family: 'DM Sans', sans-serif; color: var(--text); background: white; }
 h1,h2,h3 { font-family: 'Fraunces', serif; }
 .font-display { font-family: 'Fraunces', serif; }
@@ -51,14 +52,15 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 .nav-link:hover { color: var(--warm-teal); }
 
 nav img {
-  height: 72px;
-  max-width: 180px;
+  height: 80px;
+  max-width: 200px;
   display: block;
 }
 
 @media (max-width: 768px) {
   nav img {
-    height: 48px;
+    height: 52px;
+    max-width: 160px;
   }
 }
 
@@ -1446,7 +1448,7 @@ function renderAdmin() {
     {id:'blog', label:'Blog Posts', icon:icons.mail},
   ];
   return `
-  <div style="display:flex;min-height:100vh;">
+  <div style="display:flex;min-height:100vh;flex-wrap:wrap;">
     <!-- Sidebar -->
     <div class="admin-sidebar" style="flex-shrink:0;padding:24px 16px;">
       <div style="margin-bottom:32px;padding:8px;">
@@ -1462,7 +1464,7 @@ function renderAdmin() {
       </div>
     </div>
     <!-- Content -->
-    <div style="flex:1;background:#f4f8f8;padding:32px;overflow-auto;">
+    <div class="admin-main" style="flex:1;background:#f4f8f8;padding:32px;overflow:auto;">
       ${(sections[state.adminSection] || renderAdminDashboard)()}
     </div>
   </div>`;
