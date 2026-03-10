@@ -282,6 +282,9 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 <div id="app"></div>
 
 <script>
+// Set to your Railway backend URL (e.g. https://warm-horizon-care.up.railway.app). Leave '' for same-origin.
+const API_BASE = 'https://warm-horizon-care-production.up.railway.app';
+
 // =====================================================
 // STATE MANAGEMENT
 // =====================================================
@@ -367,7 +370,7 @@ async function handleAdminLogin(e) {
   };
 
   try {
-    const res = await fetch('/api/admin/login', {
+    const res = await fetch(API_BASE + '/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
