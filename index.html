@@ -282,6 +282,7 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 <div id="app"><p style="padding:2rem;text-align:center;">Loading…</p></div>
 
 <script>
+try {
 function safeStorage(key, fallback) {
   try { var v = localStorage.getItem(key); return v !== null ? v : fallback; } catch (e) { return fallback; }
 }
@@ -1801,12 +1802,24 @@ function render() {
 // =====================================================
 // Access admin: yoursite.com/#admin
 if (window.location.hash === '#admin') { state.page = 'admin'; }
-try {
-  render();
-} catch (err) {
-  var app = document.getElementById('app');
-  if (app) app.innerHTML = '<div style="padding:2rem;font-family:sans-serif;"><h1>Something went wrong</h1><p>Please refresh or try again.</p><pre style="margin-top:1rem;font-size:12px;color:#666;">' + (err && err.message ? err.message : String(err)) + '</pre></div>';
-  console.error(err);
+function doInit() {
+  try {
+    render();
+  } catch (err) {
+    var app = document.getElementById('app');
+    if (app) app.innerHTML = '<div style="padding:2rem;font-family:sans-serif;"><h1>Something went wrong</h1><p>Please refresh or try again.</p><pre style="margin-top:1rem;font-size:12px;color:#666;">' + (err && err.message ? err.message : String(err)) + '</pre></div>';
+    console.error(err);
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', doInit);
+} else {
+  doInit();
+}
+} catch (e) {
+  var el = document.getElementById('app');
+  if (el) el.innerHTML = '<div style="padding:1rem;font-family:sans-serif;background:#fee;color:#c00;"><strong>Error:</strong> ' + (e && e.message ? e.message : String(e)) + '</div>';
+  console.error(e);
 }
 </script>
 </body>
