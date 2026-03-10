@@ -279,9 +279,12 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 </head>
 <body>
 
-<div id="app"></div>
+<div id="app"><p style="padding:2rem;text-align:center;">Loading…</p></div>
 
 <script>
+function safeStorage(key, fallback) {
+  try { var v = localStorage.getItem(key); return v !== null ? v : fallback; } catch (e) { return fallback; }
+}
 // Set to your Railway backend URL (e.g. https://warm-horizon-care.up.railway.app). Leave '' for same-origin.
 const API_BASE = 'https://warm-horizon-care-production.up.railway.app';
 
@@ -293,9 +296,9 @@ const state = {
   chatOpen: false,
   chatMessages: [],
   chatStep: 0,
-  leads: JSON.parse(localStorage.getItem('whc_leads') || '[]'),
-  referrals: JSON.parse(localStorage.getItem('whc_referrals') || '[]'),
-  jobs: JSON.parse(localStorage.getItem('whc_jobs') || '[]'),
+  leads: (function(){ try { return JSON.parse(safeStorage('whc_leads','[]')); } catch(e){ return []; } })(),
+  referrals: (function(){ try { return JSON.parse(safeStorage('whc_referrals','[]')); } catch(e){ return []; } })(),
+  jobs: (function(){ try { return JSON.parse(safeStorage('whc_jobs','[]')); } catch(e){ return []; } })(),
   blogPosts: [
     { id:1, title:'Understanding NDIS: A Complete Guide for Participants', category:'NDIS', date:'2024-12-15', author:'Care Team', readTime:'8 min', excerpt:'The National Disability Insurance Scheme (NDIS) provides funding for Australians with permanent and significant disabilities. Learn how to access support, create your plan, and get the most from your funding.' },
     { id:2, title:'How to Choose the Right Disability Support Provider', category:'Support', date:'2024-11-28', author:'Sarah Mitchell', readTime:'6 min', excerpt:'Choosing a disability support provider is one of the most important decisions you will make. Here is what to look for, the questions to ask, and the red flags to avoid.' },
@@ -305,8 +308,8 @@ const state = {
   adminSection: 'dashboard',
   notification: null,
   mobileNavOpen: false,
-  isAdminAuthed: !!localStorage.getItem('wh_admin_token'),
-  adminToken: localStorage.getItem('wh_admin_token') || null
+  isAdminAuthed: !!safeStorage('wh_admin_token', ''),
+  adminToken: safeStorage('wh_admin_token', '') || null
 };
 
 // =====================================================
@@ -1798,7 +1801,13 @@ function render() {
 // =====================================================
 // Access admin: yoursite.com/#admin
 if (window.location.hash === '#admin') { state.page = 'admin'; }
-render();
+try {
+  render();
+} catch (err) {
+  var app = document.getElementById('app');
+  if (app) app.innerHTML = '<div style="padding:2rem;font-family:sans-serif;"><h1>Something went wrong</h1><p>Please refresh or try again.</p><pre style="margin-top:1rem;font-size:12px;color:#666;">' + (err && err.message ? err.message : String(err)) + '</pre></div>';
+  console.error(err);
+}
 </script>
 </body>
 </html>
