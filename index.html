@@ -74,10 +74,12 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 }
 .logo-icon {
   height: 56px;
-  width: auto;
+  width: 56px;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: left center;
   flex-shrink: 0;
+  border-radius: 8px;
 }
 .logo-name {
   font-family: 'Fraunces', serif;
@@ -96,12 +98,12 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
   max-width: 200px;
 }
 @media (min-width: 769px) {
-  .logo-icon { height: 64px; }
+  .logo-icon { height: 64px; width: 64px; }
   .logo-name { font-size: 1.6rem; }
   .logo-tagline { font-size: 0.75rem; max-width: 240px; }
 }
 @media (max-width: 768px) {
-  .logo-icon { height: 48px; }
+  .logo-icon { height: 48px; width: 48px; }
   .logo-name { font-size: 1.15rem; }
   .logo-tagline { font-size: 0.6rem; max-width: 160px; }
 }
@@ -280,6 +282,8 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   }
   .services-section [style*="text-align:center"] { margin-bottom: 32px !important; }
   .service-card { min-height: auto; padding: 24px 20px !important; }
+  .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .refer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
 
 /* Floating call button (mobile) */
@@ -577,15 +581,15 @@ function renderHero() {
     <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
       <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
         <div class="hero-content" style="animation:fadeUp 0.8s ease both;">
-          <!-- Trust badges -->
-          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;">
+          <h1 style="font-size:clamp(32px,5vw,52px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
+            Disability &amp; Aged Care Support in Perth
+          </h1>
+          <!-- Trust badges: after heading -->
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
             <span class="trust-badge">${icons.shield} NDIS Registered</span>
             <span class="trust-badge">${icons.award} Aged Care Approved</span>
             <span class="trust-badge">${icons.check} 5★ Rated</span>
           </div>
-          <h1 style="font-size:clamp(32px,5vw,52px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
-            Disability &amp; Aged Care Support in Perth
-          </h1>
           <p style="font-size:18px;color:rgba(255,255,255,0.9);line-height:1.7;margin-bottom:28px;max-width:560px;">
             Supporting independence with personalised disability and aged care services across Perth and Western Australia.
           </p>
@@ -598,7 +602,7 @@ function renderHero() {
             </button>
           </div>
           <!-- Trust stats -->
-          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,0.85);">
+          <div class="hero-trust-stats" style="display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,0.85);">
             <div style="display:flex;align-items:center;gap:8px;">${icons.shield} NDIS Registered Provider</div>
             <div style="display:flex;align-items:center;gap:8px;">${icons.users} 500+ Clients Supported</div>
             <div style="display:flex;align-items:center;gap:8px;">${icons.star} 5 Star Rated</div>
@@ -655,6 +659,7 @@ function renderHero() {
       .hero-content > div:last-of-type { justify-content: center; }
       .hero-card { order: 2; max-width: 340px; margin: 0 auto; }
       .hero-desktop-only { display: none !important; }
+      .hero-trust-stats { flex-direction: column; gap: 12px !important; align-items: center; }
     }
     @media (min-width: 769px) {
       .hero-desktop-only { display: block !important; }
@@ -1120,7 +1125,7 @@ function renderRefer() {
   </section>
   <section class="page-section">
     <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:50px;">
+      <div class="refer-grid" style="display:grid;grid-template-columns:1fr 2fr;gap:50px;">
         <!-- Sidebar -->
         <div>
           <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:20px;padding:28px;margin-bottom:20px;">
@@ -1404,7 +1409,7 @@ function renderContact() {
   </section>
   <section class="page-section">
     <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:50px;">
+      <div class="contact-grid" style="display:grid;grid-template-columns:1fr 1.5fr;gap:50px;">
         <!-- Info -->
         <div>
           <h2 style="font-size:26px;color:#0d5c5c;margin-bottom:24px;">Contact Information</h2>
@@ -1898,7 +1903,17 @@ function render() {
   
   const pageContent = (pages[state.page] || renderHome)();
   
-  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '') + (isAdmin ? '' : `<a href="tel:1800WARHOR" class="floating-call" aria-label="Call Warm Horizon Care"><button class="btn-primary" style="border-radius:999px;padding:12px 18px;font-size:14px;align-items:center;gap:8px;display:inline-flex;">${icons.phone} Call Us</button></a>`);
+  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '') + (isAdmin ? '' : `<a href="tel:1800WARHOR" class="floating-call" aria-label="Call Warm Horizon Care"><button class="btn-primary" style="border-radius:999px;padding:12px 18px;font-size:14px;align-items:center;gap:8px;display:inline-flex;">${icons.phone} Call Us</button></a>`) + (isAdmin ? '' : `<button type="button" id="go-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:80px;right:16px;z-index:55;width:48px;height:48px;border-radius:50%;background:#0d7a7a;color:white;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(13,122,122,0.4);font-size:20px;line-height:1;">↑</button>`);
+  
+  if (!window._goToTopListenerAdded) {
+    window._goToTopListenerAdded = true;
+    window.addEventListener('scroll', function() {
+      var b = document.getElementById('go-to-top');
+      if (b) b.style.display = window.scrollY > 400 ? 'block' : 'none';
+    });
+  }
+  var goBtn = document.getElementById('go-to-top');
+  if (goBtn) goBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
   
   // Scroll chat to bottom
   if (state.chatOpen) {
