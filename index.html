@@ -65,19 +65,23 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 .mobile-menu-btn:hover { background: rgba(13,122,122,0.15); }
 
 nav img {
-  height: 80px;
-  max-width: 200px;
+  height: 100px;
+  max-width: 260px;
   display: block;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
   nav img {
-    height: 52px;
-    max-width: 160px;
+    height: 56px;
+    max-width: 200px;
   }
 }
 
 /* Hero */
+.hero-bg.hero-section {
+  padding: 80px 20px 64px;
+}
 .hero-bg {
   background: linear-gradient(135deg, #0d5c5c 0%, #0d7a7a 40%, #1a9494 70%, #3b82c4 100%);
   position: relative;
@@ -231,9 +235,23 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 
 /* Why Choose Us – mobile stack */
 @media (max-width: 768px) {
+  .why-section-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .why-grid {
     grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
+}
+
+/* Mobile-first: sections and services */
+@media (max-width: 768px) {
+  .page-section { padding: 48px 16px 56px !important; }
+  .services-section .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 0 4px;
+  }
+  .services-section [style*="text-align:center"] { margin-bottom: 32px !important; }
+  .service-card { min-height: auto; padding: 24px 20px !important; }
 }
 
 /* Floating call button (mobile) */
@@ -519,12 +537,12 @@ function renderNav() {
 
 function renderHero() {
   return `
-  <section class="hero-bg" style="padding:80px 20px 64px;">
+  <section class="hero-bg hero-section">
     <div class="hero-orb" style="width:400px;height:400px;background:#00c4c4;top:-100px;right:-100px;"></div>
     <div class="hero-orb" style="width:300px;height:300px;background:#3b82c4;bottom:-80px;left:-80px;"></div>
     <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
-        <div style="animation:fadeUp 0.8s ease both;">
+      <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+        <div class="hero-content" style="animation:fadeUp 0.8s ease both;">
           <!-- Trust badges -->
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;">
             <span class="trust-badge">${icons.shield} NDIS Registered</span>
@@ -553,7 +571,7 @@ function renderHero() {
           </div>
         </div>
         <!-- Hero visual -->
-        <div class="float" style="animation-delay:0.3s;">
+        <div class="hero-card float" style="animation-delay:0.3s;">
           <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:32px;text-align:center;">
             <svg viewBox="0 0 300 280" style="width:100%;max-width:320px;">
               <!-- Background circles -->
@@ -590,7 +608,19 @@ function renderHero() {
         </div>
       </div>
     </div>
-    <style>@media(max-width:768px){.hero-grid{grid-template-columns:1fr!important;}}</style>
+    <style>
+    @media (max-width: 768px) {
+      .hero-section { padding: 40px 16px 48px !important; }
+      .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; text-align: center; }
+      .hero-content { max-width: 100%; }
+      .hero-content p { max-width: 100% !important; margin-left: auto; margin-right: auto; }
+      .hero-content .trust-badge { margin: 0 auto; }
+      .hero-content > div:first-of-type { justify-content: center; }
+      .hero-content .btn-primary, .hero-content .btn-secondary { width: 100%; justify-content: center; }
+      .hero-content > div:last-of-type { justify-content: center; }
+      .hero-card { order: 2; max-width: 340px; margin: 0 auto; }
+    }
+    </style>
   </section>`;
 }
 
@@ -604,14 +634,14 @@ function renderServicesOverview() {
     { icon:'💪', title:'Capacity Building', desc:'Programs to build your skills, confidence and independence.' },
   ];
   return `
-  <section class="page-section" style="background:var(--cream);">
+  <section class="page-section services-section" style="background:var(--cream);">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="text-align:center;margin-bottom:50px;">
         <span class="section-tag">Our Services</span>
         <h2 style="font-size:clamp(28px,4vw,42px);color:#0d5c5c;margin-bottom:14px;">Support That Empowers</h2>
         <p style="font-size:17px;color:#6b8585;max-width:560px;margin:0 auto;line-height:1.7;">Every person is unique. We design support plans that respect your goals, preferences and the life you want to live.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:40px;">
+      <div class="services-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:40px;">
         ${services.map(s=>`
         <button class="service-card" onclick="navigate('disability')" style="padding:28px;text-align:left;background:white;border:none;width:100%;cursor:pointer;">
           <div style="font-size:40px;margin-bottom:16px;">${s.icon}</div>
@@ -640,7 +670,7 @@ function renderWhyUs() {
   return `
   <section class="page-section">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:flex-start;">
+      <div class="why-section-grid" style="display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:flex-start;">
         <div>
           <span class="section-tag">Why Choose Us</span>
           <h2 style="font-size:clamp(28px,4vw,40px);color:#0d5c5c;margin-bottom:16px;">Care You Can Trust, Every Day</h2>
