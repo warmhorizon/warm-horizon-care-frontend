@@ -214,6 +214,20 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   border: 1px solid rgba(13,122,122,0.2);
   transition: all 0.3s ease;
 }
+
+/* Floating call button (mobile) */
+.floating-call {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 60;
+  display: none;
+}
+@media (max-width: 768px) {
+  .floating-call {
+    display: flex;
+  }
+}
 .chatbot-btn {
   position: fixed;
   bottom: 20px;
@@ -483,7 +497,7 @@ function renderNav() {
 
 function renderHero() {
   return `
-  <section class="hero-bg" style="padding:100px 20px 80px;">
+  <section class="hero-bg" style="padding:80px 20px 64px;">
     <div class="hero-orb" style="width:400px;height:400px;background:#00c4c4;top:-100px;right:-100px;"></div>
     <div class="hero-orb" style="width:300px;height:300px;background:#3b82c4;bottom:-80px;left:-80px;"></div>
     <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
@@ -495,13 +509,13 @@ function renderHero() {
             <span class="trust-badge">${icons.award} Aged Care Approved</span>
             <span class="trust-badge">${icons.check} 5★ Rated</span>
           </div>
-          <h1 style="font-size:clamp(34px,5vw,56px);font-weight:700;color:white;line-height:1.15;margin-bottom:20px;">
-            Warm Horizon Care<br/><em style="font-style:italic;color:#a8e6e6;">Disability &amp; Aged Care Services</em>
+          <h1 style="font-size:clamp(32px,5vw,52px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
+            Disability &amp; Aged Care Support in Perth
           </h1>
-          <p style="font-size:18px;color:rgba(255,255,255,0.9);line-height:1.7;margin-bottom:36px;max-width:560px;">
-            Supporting independence at every stage of life with person‑centred disability and aged care services across Perth and Western Australia.
+          <p style="font-size:18px;color:rgba(255,255,255,0.9);line-height:1.7;margin-bottom:28px;max-width:560px;">
+            Supporting independence with personalised disability and aged care services across Perth and Western Australia.
           </p>
-          <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:40px;">
+          <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px;">
             <button onclick="navigate('contact')" class="btn-primary" style="background:white;color:#0d7a7a;font-size:16px;padding:16px 32px;">
               ${icons.heart} Get Support
             </button>
@@ -509,13 +523,11 @@ function renderHero() {
               ${icons.users} Refer a Client
             </button>
           </div>
-          <!-- Stats -->
-          <div style="display:flex;gap:32px;flex-wrap:wrap;">
-            ${[['500+','Clients Supported'],['98%','Satisfaction Rate'],['8+','Years Experience'],['24/7','Support Available']].map(([n,l])=>`
-            <div>
-              <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:white;">${n}</div>
-              <div style="font-size:13px;color:rgba(255,255,255,0.7);">${l}</div>
-            </div>`).join('')}
+          <!-- Trust stats -->
+          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,0.85);">
+            <div style="display:flex;align-items:center;gap:8px;">${icons.shield} NDIS Registered Provider</div>
+            <div style="display:flex;align-items:center;gap:8px;">${icons.users} 500+ Clients Supported</div>
+            <div style="display:flex;align-items:center;gap:8px;">${icons.star} 5 Star Rated</div>
           </div>
         </div>
         <!-- Hero visual -->
@@ -577,14 +589,14 @@ function renderServicesOverview() {
         <h2 style="font-size:clamp(28px,4vw,42px);color:#0d5c5c;margin-bottom:14px;">Support That Empowers</h2>
         <p style="font-size:17px;color:#6b8585;max-width:560px;margin:0 auto;line-height:1.7;">Every person is unique. We design support plans that respect your goals, preferences and the life you want to live.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:40px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:40px;">
         ${services.map(s=>`
-        <div class="service-card" style="padding:28px;">
-          <div style="font-size:36px;margin-bottom:14px;">${s.icon}</div>
+        <button class="service-card" onclick="navigate('disability')" style="padding:28px;text-align:left;background:white;border:none;width:100%;cursor:pointer;">
+          <div style="font-size:40px;margin-bottom:16px;">${s.icon}</div>
           <h3 style="font-size:18px;font-weight:700;color:#0d5c5c;margin-bottom:8px;">${s.title}</h3>
           <p style="font-size:14px;color:#6b8585;line-height:1.7;">${s.desc}</p>
-          <button onclick="navigate('disability')" style="margin-top:14px;background:none;border:none;color:#0d7a7a;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;">Learn more ${icons.arrow}</button>
-        </div>`).join('')}
+          <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:600;font-size:14px;color:#0d7a7a;">Learn more ${icons.arrow}</span>
+        </button>`).join('')}
       </div>
       <div style="text-align:center;">
         <button onclick="navigate('disability')" class="btn-primary">View All Services ${icons.arrow}</button>
@@ -606,18 +618,18 @@ function renderWhyUs() {
   return `
   <section class="page-section">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+      <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:flex-start;">
         <div>
           <span class="section-tag">Why Choose Us</span>
           <h2 style="font-size:clamp(28px,4vw,40px);color:#0d5c5c;margin-bottom:16px;">Care You Can Trust, Every Day</h2>
           <p style="font-size:16px;color:#6b8585;margin-bottom:28px;line-height:1.8;">At Warm Horizon Care, we believe quality care starts with genuine relationships. Our team goes beyond task completion — we invest in your wellbeing, your community, and your future.</p>
-          <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:16px;padding:24px;margin-bottom:28px;">
+          <div style="background:#ffffff;border-radius:16px;padding:24px;margin-bottom:28px;border-left:4px solid #0d7a7a;border:1px solid #d1e5e5;">
             <div style="font-family:'Fraunces',serif;font-size:20px;color:#0d5c5c;margin-bottom:8px;">"We don't just provide care — we build relationships."</div>
             <div style="font-size:14px;color:#6b8585;">— Warm Horizon Care Team</div>
           </div>
           <button onclick="navigate('about')" class="btn-primary">About Our Team ${icons.arrow}</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="why-grid">
           ${reasons.map(r=>`
           <div style="background:var(--cream);border-radius:16px;padding:20px;border:1px solid rgba(13,122,122,0.08);">
             <div style="font-size:28px;margin-bottom:10px;">${r.icon}</div>
@@ -627,7 +639,6 @@ function renderWhyUs() {
         </div>
       </div>
     </div>
-    <style>@media(max-width:768px){.why-grid{grid-template-columns:1fr!important;}}</style>
   </section>`;
 }
 
@@ -1796,7 +1807,7 @@ function render() {
   
   const pageContent = (pages[state.page] || renderHome)();
   
-  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '');
+  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '') + (isAdmin ? '' : `<a href="tel:1800WARHOR" class="floating-call" aria-label="Call Warm Horizon Care"><button class="btn-primary" style="border-radius:999px;padding:12px 18px;font-size:14px;align-items:center;gap:8px;display:inline-flex;">${icons.phone} Call Us</button></a>`);
   
   // Scroll chat to bottom
   if (state.chatOpen) {
