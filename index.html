@@ -107,7 +107,8 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 @media (min-width: 769px) {
   .logo-icon { height: 64px; width: 64px; }
   .logo-name { font-size: 1.6rem; }
-  .logo-tagline { font-size: 0.75rem; max-width: 260px; }
+  .logo-text { max-width: 380px; }
+  .logo-tagline { font-size: 0.75rem; max-width: 340px; }
 }
 @media (max-width: 768px) {
   .nav-inner { padding-left: 16px !important; padding-right: 16px !important; }
@@ -307,11 +308,11 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   .refer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
 
-/* Floating call button (mobile) */
+/* Floating call (left) and chat (right) - one on either side */
 .floating-call {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
+  left: 16px;
+  bottom: 20px;
   z-index: 60;
   display: none;
 }
@@ -324,6 +325,7 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   position: fixed;
   bottom: 20px;
   right: 20px;
+  left: auto;
   width: 60px;
   height: 60px;
   background: var(--warm-teal);
@@ -1926,7 +1928,7 @@ function render() {
   
   const pageContent = (pages[state.page] || renderHome)();
   
-  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '') + (isAdmin ? '' : `<a href="tel:1800WARHOR" class="floating-call" aria-label="Call Warm Horizon Care"><button class="btn-primary" style="border-radius:999px;padding:12px 18px;font-size:14px;align-items:center;gap:8px;display:inline-flex;">${icons.phone} Call Us</button></a>`) + (isAdmin ? '' : `<button type="button" id="go-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:80px;right:16px;z-index:55;width:48px;height:48px;border-radius:50%;background:#0d7a7a;color:white;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(13,122,122,0.4);font-size:20px;line-height:1;">↑</button>`);
+  app.innerHTML = (isAdmin ? '' : renderNav()) + pageContent + (isAdmin ? '' : renderFooter()) + renderChatbot() + (state.notification ? `<div class="notification">${state.notification}</div>` : '') + (isAdmin ? '' : `<a href="tel:1800WARHOR" class="floating-call" aria-label="Call Warm Horizon Care"><button class="btn-primary" style="border-radius:999px;padding:12px 18px;font-size:14px;align-items:center;gap:8px;display:inline-flex;">${icons.phone} Call Us</button></a>`) + (isAdmin ? '' : `<button type="button" id="go-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:88px;left:50%;transform:translateX(-50%);z-index:55;width:48px;height:48px;border-radius:50%;background:#0d7a7a;color:white;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(13,122,122,0.4);font-size:20px;line-height:1;">↑</button>`);
   
   if (!window._goToTopListenerAdded) {
     window._goToTopListenerAdded = true;
