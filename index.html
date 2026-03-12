@@ -110,11 +110,13 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
   .logo-tagline { font-size: 0.75rem; max-width: 260px; }
 }
 @media (max-width: 768px) {
-  .nav-inner { padding-left: 14px !important; padding-right: 14px !important; }
-  .header-inner { height: 72px !important; }
-  .header-inner .logo-wrap { flex: 1; min-width: 0; gap: 8px; }
-  .header-actions { flex-shrink: 0; }
-  .logo-icon { height: 44px; width: 44px; }
+  .nav-inner { padding-left: 16px !important; padding-right: 16px !important; }
+  .header-inner { height: 72px !important; gap: 12px; }
+  .header-inner .logo-wrap { flex: 1; min-width: 0; min-height: 44px; gap: 8px; overflow: visible; }
+  .header-actions { flex-shrink: 0; gap: 8px; }
+  .header-get-support { display: none !important; }
+  .logo-icon { height: 44px; width: 44px; flex-shrink: 0; }
+  .logo-text { min-width: 0; overflow: visible; }
   .logo-name {
     font-size: clamp(0.8rem, 2.8vw + 0.55rem, 1.15rem);
     white-space: nowrap;
@@ -572,7 +574,7 @@ function renderNav() {
           <a href="tel:1800927467" style="display:flex;align-items:center;gap:6px;color:#0d7a7a;font-weight:600;font-size:14px;text-decoration:none;">
             ${icons.phone}<span class="hide-sm">1800 WAR HOR</span>
           </a>
-          <button onclick="navigate('contact')" class="btn-primary" style="padding:10px 20px;font-size:14px;">Get Support</button>
+          <button onclick="navigate('contact')" class="btn-primary header-get-support" style="padding:10px 20px;font-size:14px;">Get Support</button>
           <button type="button" aria-label="Open menu" onclick="toggleMobileNav()" class="mobile-menu-btn" style="display:none;border:none;cursor:pointer;color:#2d4444;">${icons.menu}</button>
         </div>
       </div>
@@ -580,6 +582,7 @@ function renderNav() {
     <!-- Mobile Nav -->
     ${state.mobileNavOpen ? `
     <div class="mobile-nav-panel" id="mobile-nav-panel" style="border-top:1px solid rgba(13,122,122,0.1);padding:16px 20px;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,0.12);">
+      <div class="mobile-nav-cta" style="margin-bottom:16px;"><button type="button" onclick="navigate('contact')" class="btn-primary" style="width:100%;padding:14px 20px;font-size:16px;font-weight:600;border-radius:12px;">${icons.heart} Get Support</button></div>
       ${links.map(l=>`<button type="button" onclick="navigate('${l.page}')" style="display:block;width:100%;text-align:left;background:none;border:none;padding:14px 8px;font-size:16px;font-weight:500;cursor:pointer;color:${state.page===l.page?'#0d7a7a':'#2d4444'};border-bottom:1px solid #f0f8f8;">${l.label}</button>`).join('')}
     </div>` : ''}
   </nav>
@@ -587,6 +590,7 @@ function renderNav() {
   @media (max-width:1024px){ .desktop-nav { display:none!important; } .mobile-menu-btn { display:flex!important; } }
   @media (max-width:640px){ .hide-sm { display:none; } }
   .main-nav { isolation: isolate; transform: translateZ(0); overflow: visible; }
+  .main-nav .nav-inner { overflow: visible; }
   .mobile-nav-panel { position: relative; z-index: 1002; }
   </style>`;
 }
