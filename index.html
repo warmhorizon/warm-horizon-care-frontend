@@ -50,7 +50,19 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 /* Nav */
 .nav-link { transition: color 0.2s; }
 .nav-link:hover { color: var(--warm-teal); }
-.mobile-menu-btn { position: relative; z-index: 1001; }
+.mobile-menu-btn {
+  position: relative;
+  z-index: 1001;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: rgba(13,122,122,0.2);
+  background: rgba(13,122,122,0.08);
+  border-radius: 10px;
+}
+.mobile-menu-btn:hover { background: rgba(13,122,122,0.15); }
 
 nav img {
   height: 80px;
@@ -472,7 +484,7 @@ function renderNav() {
     {label:'Contact', page:'contact'},
   ];
   return `
-  <nav style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(10px);border-bottom:1px solid rgba(13,122,122,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+  <nav class="main-nav" style="position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(13,122,122,0.1);box-shadow:0 2px 12px rgba(0,0,0,0.06);">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;height:88px;">
         <!-- Logo -->
@@ -488,7 +500,7 @@ function renderNav() {
             ${icons.phone}<span class="hide-sm">1800 WAR HOR</span>
           </a>
           <button onclick="navigate('contact')" class="btn-primary" style="padding:10px 20px;font-size:14px;">Get Support</button>
-          <button onclick="state.mobileNavOpen=!state.mobileNavOpen;render()" class="mobile-menu-btn" style="display:none;background:none;border:none;cursor:pointer;color:#2d4444;">${icons.menu}</button>
+          <button type="button" aria-label="Open menu" onclick="state.mobileNavOpen=!state.mobileNavOpen;render()" class="mobile-menu-btn" style="display:none;border:none;cursor:pointer;color:#2d4444;">${icons.menu}</button>
         </div>
       </div>
     </div>
@@ -501,6 +513,7 @@ function renderNav() {
   <style>
   @media (max-width:1024px){ .desktop-nav { display:none!important; } .mobile-menu-btn { display:flex!important; } }
   @media (max-width:640px){ .hide-sm { display:none; } }
+  .main-nav { isolation: isolate; transform: translateZ(0); }
   </style>`;
 }
 
