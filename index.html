@@ -282,6 +282,22 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   transition: all 0.3s ease;
 }
 
+/* About: mission + numbers left, warm horizon right on desktop */
+.about-mission-grid { grid-template-areas: 'mission warm' 'numbers .'; }
+.about-mission-text { grid-area: mission; }
+.about-warm-horizon { grid-area: warm; }
+.about-mission-numbers { grid-area: numbers; }
+@media (max-width: 768px) {
+  .about-mission-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: 'mission' 'warm' 'numbers' !important;
+    gap: 32px !important;
+  }
+  .about-mission-text { order: 1; }
+  .about-warm-horizon { order: 2; }
+  .about-mission-numbers { order: 3; display: flex !important; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+}
+
 /* Why Choose Us – mobile stack */
 @media (max-width: 768px) {
   .why-section-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
@@ -306,6 +322,7 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   .services-cta-row .btn-outline { width: 100%; justify-content: center; }
   .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .refer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .content-two-col { grid-template-columns: 1fr !important; gap: 24px !important; }
 }
 
 /* Floating call (left) and chat (right) - one on either side */
@@ -907,36 +924,36 @@ function renderAbout() {
   </section>
   <section class="page-section">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px;">
-        <div>
+      <div class="about-mission-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px;">
+        <div class="about-mission-text">
           <span class="section-tag">Our Mission</span>
           <h2 style="font-size:36px;color:#0d5c5c;margin-bottom:20px;">Why We Do What We Do</h2>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:20px;">We started Warm Horizon Care because we saw too many Western Australians receiving support that was transactional, rushed and impersonal. We knew there was a better way.</p>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:20px;">Our mission is to provide disability and aged care services that genuinely improve lives — combining professional expertise with human connection.</p>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:28px;">We are proud to be an NDIS registered provider, an aged care approved provider, and a team that shows up with heart every single day.</p>
-          <div style="display:flex;gap:20px;flex-wrap:wrap;">
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">2015</div>
-              <div style="font-size:13px;color:#6b8585;">Founded</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">500+</div>
-              <div style="font-size:13px;color:#6b8585;">Clients</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">150+</div>
-              <div style="font-size:13px;color:#6b8585;">Staff</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">12</div>
-              <div style="font-size:13px;color:#6b8585;">Locations</div>
-            </div>
-          </div>
         </div>
-        <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:40px;text-align:center;">
+        <div class="about-warm-horizon" style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:40px;text-align:center;">
           <div style="font-size:80px;margin-bottom:20px;">🌅</div>
           <h3 style="font-family:'Fraunces',serif;font-size:24px;color:#0d5c5c;margin-bottom:12px;">A Warm Horizon for Everyone</h3>
           <p style="color:#6b8585;font-size:15px;line-height:1.7;">The name Warm Horizon represents our belief that every person, regardless of their challenges today, deserves a future that is bright, hopeful and full of possibility.</p>
+        </div>
+        <div class="about-mission-numbers" style="display:flex;gap:20px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">2015</div>
+            <div style="font-size:13px;color:#6b8585;">Founded</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">500+</div>
+            <div style="font-size:13px;color:#6b8585;">Clients</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">150+</div>
+            <div style="font-size:13px;color:#6b8585;">Staff</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">12</div>
+            <div style="font-size:13px;color:#6b8585;">Locations</div>
+          </div>
         </div>
       </div>
       <!-- Values -->
@@ -1034,7 +1051,7 @@ function renderDisability() {
       </div>
       <!-- NDIS info -->
       <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:50px;margin-bottom:40px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+        <div class="content-two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
           <div>
             <span class="section-tag">How NDIS Works</span>
             <h2 style="font-size:32px;color:#0d5c5c;margin-bottom:16px;">Using Your NDIS Plan with Us</h2>
@@ -1976,3 +1993,4 @@ if (document.readyState === 'loading') {
 </script>
 </body>
 </html>
+ 
