@@ -74,11 +74,13 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 }
 .logo-icon {
   height: 56px;
-  width: auto;
+  width: 56px;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top center;
   flex-shrink: 0;
   border-radius: 8px;
+  overflow: hidden;
 }
 .logo-text {
   display: flex;
@@ -103,7 +105,7 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
   max-width: 200px;
 }
 @media (min-width: 769px) {
-  .logo-icon { height: 64px; width: auto; }
+  .logo-icon { height: 64px; width: 64px; }
   .logo-name { font-size: 1.6rem; }
   .logo-tagline { font-size: 0.75rem; max-width: 260px; }
 }
@@ -112,7 +114,7 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
   .header-inner { height: 72px !important; }
   .header-inner .logo-wrap { flex: 1; min-width: 0; gap: 8px; }
   .header-actions { flex-shrink: 0; }
-  .logo-icon { height: 44px; width: auto; }
+  .logo-icon { height: 44px; width: 44px; }
   .logo-name {
     font-size: clamp(0.8rem, 2.8vw + 0.55rem, 1.15rem);
     white-space: nowrap;
@@ -560,7 +562,8 @@ function renderNav() {
       <div class="header-inner" style="display:flex;align-items:center;justify-content:space-between;height:88px;">
         <!-- Logo -->
         <div class="logo-wrap" onclick="navigate('home')" onkeydown="if(event.key==='Enter'){event.preventDefault();navigate('home');}" role="button" tabindex="0" aria-label="Warm Horizon Care home">
-<img class="logo-icon" src="logo.png" alt="Warm Horizon Care – Disability &amp; Aged Care Services">
+<img class="logo-icon" src="logo.png" alt="">
+        <div class="logo-text"><span class="logo-name">Warm Horizon Care</span><span class="logo-tagline">Disability &amp; Aged Care Services</span></div>
         </div>
         <div class="desktop-nav" style="display:flex;align-items:center;gap:4px;">
           ${links.slice(1,-1).map(l=>`<button onclick="navigate('${l.page}')" class="nav-link" style="background:none;border:none;padding:8px 12px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;color:${state.page===l.page?'#0d7a7a':'#2d4444'};background:${state.page===l.page?'rgba(13,122,122,0.08)':'transparent'};">${l.label}</button>`).join('')}
@@ -594,7 +597,7 @@ function renderHero() {
     <div class="hero-orb" style="width:400px;height:400px;background:#00c4c4;top:-100px;right:-100px;"></div>
     <div class="hero-orb" style="width:300px;height:300px;background:#3b82c4;bottom:-80px;left:-80px;"></div>
     <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
-      <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;">
+      <div class="hero-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;">
         <div class="hero-content hero-left" style="animation:fadeUp 0.8s ease both;">
           <h1 style="font-size:clamp(32px,5vw,52px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
             Disability &amp; Aged Care Support in Perth
@@ -678,7 +681,7 @@ function renderHero() {
     }
     @media (min-width: 769px) {
       .hero-desktop-only { display: block !important; }
-      .hero-left { max-width: 540px; }
+      .hero-left { max-width: 560px; }
     }
     </style>
   </section>`;
