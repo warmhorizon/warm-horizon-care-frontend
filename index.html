@@ -50,6 +50,7 @@ h1,h2,h3 { font-family: 'Fraunces', serif; }
 /* Nav */
 .nav-link { transition: color 0.2s; }
 .nav-link:hover { color: var(--warm-teal); }
+.mobile-menu-btn { position: relative; z-index: 1001; }
 
 nav img {
   height: 80px;
@@ -214,6 +215,13 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   overflow: hidden;
   border: 1px solid rgba(13,122,122,0.2);
   transition: all 0.3s ease;
+}
+
+/* Why Choose Us – mobile stack */
+@media (max-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* Floating call button (mobile) */
