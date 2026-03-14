@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Warm Horizon Care | NDIS & Aged Care Services Perth WA</title>
 <meta name="description" content="Warm Horizon Care provides compassionate NDIS disability support and aged care services across Perth and Western Australia. NDIS registered provider. Call us today for a free consultation."/>
 <meta name="keywords" content="NDIS provider Perth, disability support WA, aged care Perth, support coordination Western Australia, home care Perth"/>
@@ -42,6 +42,7 @@
   --muted: #6b8585;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
 body {
   font-family: 'DM Sans', sans-serif;
   color: var(--text);
@@ -49,7 +50,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100vw;
 }
+img, svg, video { max-width: 100%; height: auto; }
+input, select, textarea { font-size: 16px; max-width: 100%; }
 h1,h2,h3 { font-family: 'Fraunces', serif; }
 .font-display { font-family: 'Fraunces', serif; }
 
@@ -63,6 +67,7 @@ nav img {
   display: block;
 }
 
+.mobile-tagline { display: none; }
 @media (max-width: 768px) {
   nav img {
     height: 52px;
@@ -72,6 +77,14 @@ nav img {
   }
   .header-brand-text {
     display: none !important;
+  }
+  .mobile-tagline {
+    display: block !important;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.35;
+    margin-top: 4px;
+    max-width: 200px;
   }
 }
 
@@ -305,16 +318,28 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 .animate-fade-up { animation: fadeUp 0.7s ease forwards; }
 .float { animation: float 4s ease-in-out infinite; }
 
-/* Mobile */
+/* Mobile: fit without zoom */
 @media (max-width: 768px) {
   .chatbot-window { width: calc(100vw - 32px); right: 16px; }
-  .page-section { padding: 50px 0; }
+  .page-section { padding: 40px 0; }
   .section-inner { padding-left: 16px !important; padding-right: 16px !important; }
   .refer-grid,
   .contact-grid,
   .two-col-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
   .form-row-2 { grid-template-columns: 1fr !important; }
   .hero-banner { padding-left: 16px !important; padding-right: 16px !important; }
+  .hero-grid { width: 100% !important; min-width: 0 !important; }
+  .hero-inner { width: 100% !important; max-width: 100% !important; }
+  .nav-inner { padding-left: 16px !important; padding-right: 16px !important; }
+  h1 { font-size: clamp(26px, 6vw, 52px) !important; }
+  h2 { font-size: clamp(22px, 5vw, 36px) !important; }
+  .hero-intro { font-size: 13px !important; }
+}
+@media (max-width: 480px) {
+  .page-section { padding: 32px 0; }
+  .section-inner { padding-left: 12px !important; padding-right: 12px !important; }
+  .hero-banner { padding-left: 12px !important; padding-right: 12px !important; }
+  .nav-inner { padding-left: 12px !important; padding-right: 12px !important; }
 }
 
 /* Tab active */
@@ -330,6 +355,14 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 
 /* notification */
 .notification { position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 14px 20px; border-radius: 12px; font-size: 14px; font-weight: 500; z-index: 9999; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); animation: fadeUp 0.4s ease; }
+
+/* App container: no horizontal overflow */
+#app { max-width: 100%; overflow-x: hidden; width: 100%; }
+#app > * { max-width: 100%; min-width: 0; }
+
+/* Hero: prevent overflow, allow shrink */
+.hero-content-col { min-width: 0; width: 100%; }
+.hero-visual-col { min-width: 0; width: 100%; }
 
 /* Location pills */
 .location-pill { background: var(--light-teal); color: var(--warm-teal); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; }
@@ -501,13 +534,16 @@ function renderNav() {
   ];
   return `
   <nav style="position:sticky;top:0;z-index:100;background:white;border-bottom:1px solid rgba(13,122,122,0.1);box-shadow:0 2px 20px rgba(0,0,0,0.06);">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+    <div class="nav-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;min-height:88px;padding:12px 0;">
-        <!-- Logo + Brand + Tagline (brand text hidden on mobile to avoid overlap with Get Support) -->
-        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0;">
-          <img src="./assets/Logo.png"
-               alt="Warm Horizon Care"
-               style="height:70px;width:auto;object-fit:contain;display:block;flex-shrink:0;"/>
+        <!-- Logo + Brand + Tagline (brand text hidden on mobile; tagline shown below logo on mobile) -->
+        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:1;">
+          <div style="display:flex;flex-direction:column;min-width:0;">
+            <img src="./assets/Logo.png"
+                 alt="Warm Horizon Care"
+                 style="height:70px;width:auto;object-fit:contain;display:block;flex-shrink:0;"/>
+            <div class="mobile-tagline">Disability &amp; Aged Care Support Services · Supporting Independence at Every Stage of Life</div>
+          </div>
           <div class="header-brand-text" style="display:flex;flex-direction:column;min-width:0;">
             <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0d5c5c;line-height:1;white-space:nowrap;">Warm Horizon Care</div>
             <div class="nav-tagline" style="font-size:12px;color:#6b8585;margin-top:4px;white-space:nowrap;">Disability &amp; Aged Care Support Services</div>
@@ -544,18 +580,22 @@ function renderHero() {
   <section class="hero-bg hero-banner" style="padding:100px 20px 80px;">
     <div class="hero-orb" style="width:400px;height:400px;background:#00c4c4;top:-100px;right:-100px;"></div>
     <div class="hero-orb" style="width:300px;height:300px;background:#3b82c4;bottom:-80px;left:-80px;"></div>
-    <div class="section-inner" style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
+    <div class="section-inner hero-inner" style="max-width:1280px;margin:0 auto;position:relative;z-index:1;width:100%;">
       <div class="hero-grid two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
-        <div style="animation:fadeUp 0.8s ease both;">
-          <!-- Trust badges -->
-          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;">
+        <div class="hero-content-col" style="animation:fadeUp 0.8s ease both;">
+          <!-- Intro line (above headline) -->
+          <p class="hero-intro" style="font-size:clamp(14px,2.5vw,16px);color:rgba(255,255,255,0.95);line-height:1.5;margin-bottom:16px;">
+            Warm Horizon Care — disability and aged care support services.<br/>Supporting Independence at Every Stage of Life.
+          </p>
+          <h1 style="font-size:clamp(32px,5vw,58px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
+            Compassionate Care,<br/><em style="font-style:italic;color:#a8e6e6;">Brighter Futures</em>
+          </h1>
+          <!-- NDIS / 5 star badges (below headline) -->
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
             <span class="trust-badge">${icons.shield} NDIS Registered</span>
             <span class="trust-badge">${icons.award} Aged Care Approved</span>
             <span class="trust-badge">${icons.check} 5★ Rated</span>
           </div>
-          <h1 style="font-size:clamp(36px,5vw,58px);font-weight:700;color:white;line-height:1.15;margin-bottom:20px;">
-            Compassionate Care,<br/><em style="font-style:italic;color:#a8e6e6;">Brighter Futures</em>
-          </h1>
           <p style="font-size:18px;color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:36px;max-width:500px;">
             Warm Horizon Care provides person-centred NDIS and aged care support across Perth and Western Australia. We empower individuals to live independently, with dignity and joy.
           </p>
@@ -577,9 +617,9 @@ function renderHero() {
           </div>
         </div>
         <!-- Hero visual -->
-        <div class="float" style="animation-delay:0.3s;">
-          <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:32px;text-align:center;">
-            <svg viewBox="0 0 300 280" style="width:100%;max-width:320px;">
+        <div class="hero-visual-col float" style="animation-delay:0.3s;">
+          <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:24px;text-align:center;max-width:100%;">
+            <svg viewBox="0 0 300 280" style="width:100%;max-width:280px;height:auto;">
               <!-- Background circles -->
               <circle cx="150" cy="140" r="120" fill="rgba(255,255,255,0.05)"/>
               <circle cx="150" cy="140" r="90" fill="rgba(255,255,255,0.07)"/>
@@ -604,7 +644,7 @@ function renderHero() {
               <text x="150" y="270" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.6)" font-family="DM Sans, sans-serif">Our community of care</text>
             </svg>
             <!-- Quick contact card -->
-            <div style="background:white;border-radius:16px;padding:20px;margin-top:16px;text-align:left;">
+            <div style="background:white;border-radius:16px;padding:20px;margin-top:16px;text-align:left;max-width:100%;box-sizing:border-box;">
               <div style="font-size:13px;color:#6b8585;margin-bottom:8px;">Free Consultation</div>
               <div style="font-family:'Fraunces',serif;font-size:18px;color:#0d5c5c;font-weight:700;margin-bottom:4px;">Book Today</div>
               <div style="font-size:13px;color:#6b8585;margin-bottom:12px;">Speak with our care team within 2 hours</div>
