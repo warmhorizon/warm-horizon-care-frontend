@@ -72,12 +72,6 @@ nav img {
   nav img {
     height: 52px;
   }
-  .nav-tagline {
-    display: none;
-  }
-  .header-brand-text {
-    display: none !important;
-  }
   .mobile-tagline {
     display: block !important;
     font-size: 11px;
@@ -333,7 +327,8 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
   .nav-inner { padding-left: 16px !important; padding-right: 16px !important; }
   h1 { font-size: clamp(26px, 6vw, 52px) !important; }
   h2 { font-size: clamp(22px, 5vw, 36px) !important; }
-  .hero-intro { font-size: 13px !important; }
+  .hero-tagline { font-size: 14px !important; }
+  .hero-sub { font-size: 16px !important; }
 }
 @media (max-width: 480px) {
   .page-section { padding: 32px 0; }
@@ -536,18 +531,13 @@ function renderNav() {
   <nav style="position:sticky;top:0;z-index:100;background:white;border-bottom:1px solid rgba(13,122,122,0.1);box-shadow:0 2px 20px rgba(0,0,0,0.06);">
     <div class="nav-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;min-height:88px;padding:12px 0;">
-        <!-- Logo + Brand + Tagline (brand text hidden on mobile; tagline shown below logo on mobile) -->
-        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:1;">
+        <!-- Logo only (no duplicate brand text in header); tagline below logo on mobile -->
+        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;min-width:0;flex-shrink:0;">
           <div style="display:flex;flex-direction:column;min-width:0;">
             <img src="./assets/Logo.png"
                  alt="Warm Horizon Care"
                  style="height:70px;width:auto;object-fit:contain;display:block;flex-shrink:0;"/>
             <div class="mobile-tagline">Disability &amp; Aged Care Support Services · Supporting Independence at Every Stage of Life</div>
-          </div>
-          <div class="header-brand-text" style="display:flex;flex-direction:column;min-width:0;">
-            <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0d5c5c;line-height:1;white-space:nowrap;">Warm Horizon Care</div>
-            <div class="nav-tagline" style="font-size:12px;color:#6b8585;margin-top:4px;white-space:nowrap;">Disability &amp; Aged Care Support Services</div>
-            <div class="nav-tagline" style="font-size:11px;color:#6b8585;margin-top:2px;white-space:nowrap;">Supporting Independence at Every Stage of Life</div>
           </div>
         </div>
         <!-- Desktop Nav -->
@@ -583,14 +573,17 @@ function renderHero() {
     <div class="section-inner hero-inner" style="max-width:1280px;margin:0 auto;position:relative;z-index:1;width:100%;">
       <div class="hero-grid two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
         <div class="hero-content-col" style="animation:fadeUp 0.8s ease both;">
-          <!-- Intro line (above headline) -->
-          <p class="hero-intro" style="font-size:clamp(14px,2.5vw,16px);color:rgba(255,255,255,0.95);line-height:1.5;margin-bottom:16px;">
-            Warm Horizon Care — disability and aged care support services.<br/>Supporting Independence at Every Stage of Life.
-          </p>
-          <h1 style="font-size:clamp(32px,5vw,58px);font-weight:700;color:white;line-height:1.15;margin-bottom:16px;">
-            Compassionate Care,<br/><em style="font-style:italic;color:#a8e6e6;">Brighter Futures</em>
+          <!-- Prominent: Warm Horizon Care + tagline -->
+          <h1 class="hero-brand" style="font-size:clamp(36px,6vw,64px);font-weight:700;color:white;line-height:1.1;margin-bottom:12px;">
+            Warm Horizon Care
           </h1>
-          <!-- NDIS / 5 star badges (below headline) -->
+          <p class="hero-tagline" style="font-size:clamp(16px,2.2vw,20px);color:rgba(255,255,255,0.95);line-height:1.45;margin-bottom:20px;">
+            Disability and aged care support services.<br/>Supporting Independence at Every Stage of Life.
+          </p>
+          <p class="hero-sub" style="font-size:clamp(18px,2.5vw,24px);color:#a8e6e6;font-style:italic;font-weight:500;margin-bottom:20px;">
+            Compassionate Care, Brighter Futures
+          </p>
+          <!-- NDIS / 5 star badges -->
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
             <span class="trust-badge">${icons.shield} NDIS Registered</span>
             <span class="trust-badge">${icons.award} Aged Care Approved</span>
