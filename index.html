@@ -48,6 +48,7 @@ body {
   background: white;
   font-size: 16px;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 h1,h2,h3 { font-family: 'Fraunces', serif; }
 .font-display { font-family: 'Fraunces', serif; }
@@ -69,6 +70,50 @@ nav img {
   .nav-tagline {
     display: none;
   }
+  .header-brand-text {
+    display: none !important;
+  }
+}
+
+/* About: mission → warm horizon → stats in one row */
+.about-mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+.about-mission-content { min-width: 0; }
+.about-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 80px;
+}
+.about-stat { text-align: center; flex: 1 1 0; min-width: 70px; }
+.about-stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  color: var(--warm-teal);
+  font-weight: 700;
+}
+.about-stat-label { font-size: 13px; color: var(--muted); }
+@media (max-width: 768px) {
+  .about-mission-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  .about-stats-row {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .about-stat { flex: 1 1 auto; min-width: 0; }
+  .about-stat-num { font-size: 28px; }
 }
 
 /* Hero */
@@ -264,6 +309,12 @@ label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6p
 @media (max-width: 768px) {
   .chatbot-window { width: calc(100vw - 32px); right: 16px; }
   .page-section { padding: 50px 0; }
+  .section-inner { padding-left: 16px !important; padding-right: 16px !important; }
+  .refer-grid,
+  .contact-grid,
+  .two-col-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .form-row-2 { grid-template-columns: 1fr !important; }
+  .hero-banner { padding-left: 16px !important; padding-right: 16px !important; }
 }
 
 /* Tab active */
@@ -451,22 +502,16 @@ function renderNav() {
   return `
   <nav style="position:sticky;top:0;z-index:100;background:white;border-bottom:1px solid rgba(13,122,122,0.1);box-shadow:0 2px 20px rgba(0,0,0,0.06);">
     <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;height:88px;">
-        <!-- Logo + Brand + Tagline (desktop only) -->
-        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;min-height:88px;padding:12px 0;">
+        <!-- Logo + Brand + Tagline (brand text hidden on mobile to avoid overlap with Get Support) -->
+        <div onclick="navigate('home')" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0;">
           <img src="./assets/Logo.png"
                alt="Warm Horizon Care"
                style="height:70px;width:auto;object-fit:contain;display:block;flex-shrink:0;"/>
-          <div style="display:flex;flex-direction:column;min-width:0;">
-            <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0d5c5c;line-height:1;white-space:nowrap;">
-              Warm Horizon Care
-            </div>
-            <div class="nav-tagline" style="font-size:12px;color:#6b8585;margin-top:4px;white-space:nowrap;">
-              Disability &amp; Aged Care Support Services
-            </div>
-            <div class="nav-tagline" style="font-size:11px;color:#6b8585;margin-top:2px;white-space:nowrap;">
-              Supporting Independence at Every Stage of Life
-            </div>
+          <div class="header-brand-text" style="display:flex;flex-direction:column;min-width:0;">
+            <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0d5c5c;line-height:1;white-space:nowrap;">Warm Horizon Care</div>
+            <div class="nav-tagline" style="font-size:12px;color:#6b8585;margin-top:4px;white-space:nowrap;">Disability &amp; Aged Care Support Services</div>
+            <div class="nav-tagline" style="font-size:11px;color:#6b8585;margin-top:2px;white-space:nowrap;">Supporting Independence at Every Stage of Life</div>
           </div>
         </div>
         <!-- Desktop Nav -->
@@ -496,11 +541,11 @@ function renderNav() {
 
 function renderHero() {
   return `
-  <section class="hero-bg" style="padding:100px 20px 80px;">
+  <section class="hero-bg hero-banner" style="padding:100px 20px 80px;">
     <div class="hero-orb" style="width:400px;height:400px;background:#00c4c4;top:-100px;right:-100px;"></div>
     <div class="hero-orb" style="width:300px;height:300px;background:#3b82c4;bottom:-80px;left:-80px;"></div>
-    <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;position:relative;z-index:1;">
+      <div class="hero-grid two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
         <div style="animation:fadeUp 0.8s ease both;">
           <!-- Trust badges -->
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;">
@@ -569,7 +614,6 @@ function renderHero() {
         </div>
       </div>
     </div>
-    <style>@media(max-width:768px){.hero-grid{grid-template-columns:1fr!important;}}</style>
   </section>`;
 }
 
@@ -584,7 +628,7 @@ function renderServicesOverview() {
   ];
   return `
   <section class="page-section" style="background:var(--cream);">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="text-align:center;margin-bottom:50px;">
         <span class="section-tag">Our Services</span>
         <h2 style="font-size:clamp(28px,4vw,42px);color:#0d5c5c;margin-bottom:14px;">Support That Empowers</h2>
@@ -618,8 +662,8 @@ function renderWhyUs() {
   ];
   return `
   <section class="page-section">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
+      <div class="why-grid two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
         <div>
           <span class="section-tag">Why Choose Us</span>
           <h2 style="font-size:clamp(28px,4vw,40px);color:#0d5c5c;margin-bottom:16px;">Care You Can Trust, Every Day</h2>
@@ -630,7 +674,7 @@ function renderWhyUs() {
           </div>
           <button onclick="navigate('about')" class="btn-primary">About Our Team ${icons.arrow}</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
           ${reasons.map(r=>`
           <div style="background:var(--cream);border-radius:16px;padding:20px;border:1px solid rgba(13,122,122,0.08);">
             <div style="font-size:28px;margin-bottom:10px;">${r.icon}</div>
@@ -640,7 +684,6 @@ function renderWhyUs() {
         </div>
       </div>
     </div>
-    <style>@media(max-width:768px){.why-grid{grid-template-columns:1fr!important;}}</style>
   </section>`;
 }
 
@@ -653,7 +696,7 @@ function renderTestimonials() {
   ];
   return `
   <section class="page-section" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="text-align:center;margin-bottom:50px;">
         <span class="section-tag" style="color:#a8e6e6;">Client Stories</span>
         <h2 style="font-size:clamp(28px,4vw,42px);color:white;margin-bottom:14px;">What Our Clients Say</h2>
@@ -685,7 +728,7 @@ function renderTestimonials() {
 function renderLeadForm() {
   return `
   <section class="page-section" style="background:var(--cream);">
-    <div style="max-width:900px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:900px;margin:0 auto;padding:0 20px;">
       <div style="background:white;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(13,122,122,0.1);border:1px solid rgba(13,122,122,0.1);">
         <div style="background:linear-gradient(135deg,#0d7a7a,#3b82c4);padding:40px;text-align:center;">
           <h2 style="font-size:32px;color:white;margin-bottom:10px;">Start Your Care Journey</h2>
@@ -693,11 +736,11 @@ function renderLeadForm() {
         </div>
         <div style="padding:40px;">
           <form onsubmit="handleLeadForm(event)">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+            <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
               <div><label>First Name *</label><input type="text" name="firstName" required placeholder="Jane"/></div>
               <div><label>Last Name *</label><input type="text" name="lastName" required placeholder="Smith"/></div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+            <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
               <div><label>Phone *</label><input type="tel" name="phone" required placeholder="04XX XXX XXX"/></div>
               <div><label>Email</label><input type="email" name="email" placeholder="jane@example.com"/></div>
             </div>
@@ -741,7 +784,7 @@ function renderLocations() {
   const cities = ['Perth CBD','Fremantle','Joondalup','Rockingham','Mandurah','Armadale','Midland','Stirling','Wanneroo','Bunbury'];
   return `
   <section class="page-section">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;text-align:center;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;text-align:center;">
       <span class="section-tag">Service Areas</span>
       <h2 style="font-size:clamp(24px,3vw,36px);color:#0d5c5c;margin-bottom:10px;">Proudly Serving Perth &amp; WA</h2>
       <p style="color:#6b8585;margin-bottom:32px;">We provide NDIS and aged care services across Perth metropolitan area and regional Western Australia.</p>
@@ -779,46 +822,34 @@ function renderAbout() {
     { name:'Leadership Team Member 4', role:'Community & Partnerships', bio:'Builds relationships with hospitals, allied health teams and referral partners across Perth and Western Australia.' },
   ];
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">Our Story</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">Built on Compassion, Driven by Purpose</h1>
       <p style="font-size:18px;color:rgba(255,255,255,0.85);line-height:1.8;">Warm Horizon Care was founded with a simple belief: everyone deserves to live with dignity, independence and joy — regardless of age or ability.</p>
     </div>
   </section>
-  <section class="page-section">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px;">
-        <div>
+  <section class="page-section about-mission-section">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
+      <div class="about-mission-grid">
+        <div class="about-mission-content">
           <span class="section-tag">Our Mission</span>
           <h2 style="font-size:36px;color:#0d5c5c;margin-bottom:20px;">Why We Do What We Do</h2>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:20px;">We started Warm Horizon Care because we saw too many Western Australians receiving support that was transactional, rushed and impersonal. We knew there was a better way.</p>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:20px;">Our mission is to provide disability and aged care services that genuinely improve lives — combining professional expertise with human connection.</p>
           <p style="font-size:16px;color:#6b8585;line-height:1.8;margin-bottom:28px;">We are proud to be an NDIS registered provider, an aged care approved provider, and a team that shows up with heart every single day.</p>
-          <div style="display:flex;gap:20px;flex-wrap:wrap;">
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">2015</div>
-              <div style="font-size:13px;color:#6b8585;">Founded</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">500+</div>
-              <div style="font-size:13px;color:#6b8585;">Clients</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">150+</div>
-              <div style="font-size:13px;color:#6b8585;">Staff</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:'Fraunces',serif;font-size:36px;color:#0d7a7a;font-weight:700;">12</div>
-              <div style="font-size:13px;color:#6b8585;">Locations</div>
-            </div>
-          </div>
         </div>
-        <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:40px;text-align:center;">
+        <div class="about-warm-horizon-card" style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:40px;text-align:center;">
           <div style="font-size:80px;margin-bottom:20px;">🌅</div>
           <h3 style="font-family:'Fraunces',serif;font-size:24px;color:#0d5c5c;margin-bottom:12px;">A Warm Horizon for Everyone</h3>
           <p style="color:#6b8585;font-size:15px;line-height:1.7;">The name Warm Horizon represents our belief that every person, regardless of their challenges today, deserves a future that is bright, hopeful and full of possibility.</p>
         </div>
+      </div>
+      <div class="about-stats-row">
+        <div class="about-stat"><div class="about-stat-num">2026</div><div class="about-stat-label">Founded</div></div>
+        <div class="about-stat"><div class="about-stat-num">500+</div><div class="about-stat-label">Clients</div></div>
+        <div class="about-stat"><div class="about-stat-num">150+</div><div class="about-stat-label">Staff</div></div>
+        <div class="about-stat"><div class="about-stat-num">12</div><div class="about-stat-label">Locations</div></div>
       </div>
       <!-- Values -->
       <div style="margin-bottom:80px;">
@@ -885,7 +916,7 @@ function renderDisability() {
     { icon:'🤝', title:'Behaviour Support', items:['Positive behaviour support','Specialist assessments','Training for families','Crisis de-escalation','PBSP development'] },
   ];
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">NDIS Registered Provider</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">Disability Support Services</h1>
@@ -897,7 +928,7 @@ function renderDisability() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="text-align:center;margin-bottom:50px;">
         <span class="section-tag">What We Offer</span>
         <h2 style="font-size:36px;color:#0d5c5c;">Our Disability Support Services</h2>
@@ -915,7 +946,7 @@ function renderDisability() {
       </div>
       <!-- NDIS info -->
       <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:24px;padding:50px;margin-bottom:40px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+        <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
           <div>
             <span class="section-tag">How NDIS Works</span>
             <h2 style="font-size:32px;color:#0d5c5c;margin-bottom:16px;">Using Your NDIS Plan with Us</h2>
@@ -963,7 +994,7 @@ function renderAgedCare() {
     { icon:'🚗', title:'Transport & Errands', desc:'Safe transport to appointments, shopping and social activities to maintain independence.' },
   ];
   return `
-  <section style="background:linear-gradient(135deg,#1a4a6b,#3b82c4);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#1a4a6b,#3b82c4);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8d4f5;">Aged Care Services</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">Ageing Well, Living Well</h1>
@@ -975,7 +1006,7 @@ function renderAgedCare() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1280px;margin:0 auto;padding:0 20px;">
       <div style="text-align:center;margin-bottom:50px;">
         <span class="section-tag">Aged Care Support</span>
         <h2 style="font-size:36px;color:#0d5c5c;">Services for Older Australians</h2>
@@ -1022,7 +1053,7 @@ function renderAgedCare() {
 // =====================================================
 function renderRefer() {
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#1a4a6b);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#1a4a6b);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">For Professionals</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">Refer a Client</h1>
@@ -1030,8 +1061,8 @@ function renderRefer() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:50px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;" class="section-inner">
+      <div class="refer-grid" style="display:grid;grid-template-columns:1fr 2fr;gap:50px;">
         <!-- Sidebar -->
         <div>
           <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:20px;padding:28px;margin-bottom:20px;">
@@ -1061,11 +1092,11 @@ function renderRefer() {
           <form onsubmit="handleReferralForm(event)">
             <div style="background:#e0f5f5;border-radius:12px;padding:16px;margin-bottom:24px;">
               <h4 style="color:#0d5c5c;margin-bottom:12px;">Referring Professional</h4>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
+              <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
                 <div><label>Your Name *</label><input type="text" name="refName" required placeholder="Jane Smith"/></div>
                 <div><label>Organisation *</label><input type="text" name="refOrg" required placeholder="Bright Future Services"/></div>
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
+              <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
                 <div><label>Role *</label>
                   <select name="refRole" required>
                     <option value="">Select...</option>
@@ -1083,11 +1114,11 @@ function renderRefer() {
             </div>
             <div style="background:#e8f4fd;border-radius:12px;padding:16px;margin-bottom:24px;">
               <h4 style="color:#0d5c5c;margin-bottom:12px;">Client Details</h4>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
+              <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
                 <div><label>Client Name *</label><input type="text" name="clientName" required placeholder="John D."/></div>
                 <div><label>Date of Birth</label><input type="date" name="clientDob"/></div>
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
+              <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;">
                 <div><label>Client Phone</label><input type="tel" name="clientPhone" placeholder="04XX XXX XXX"/></div>
                 <div><label>NDIS Number (if applicable)</label><input type="text" name="ndisNumber" placeholder="43XXXXXXX"/></div>
               </div>
@@ -1144,7 +1175,7 @@ function renderCareers() {
     { title:'Team Leader – Complex Care', location:'Perth, WA', type:'Full-time', urgent: true },
   ];
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">Join Our Team</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">Build a Career in Care</h1>
@@ -1152,7 +1183,7 @@ function renderCareers() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1200px;margin:0 auto;padding:0 20px;">
       <!-- Benefits -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:60px;">
         ${[['💰','Competitive Pay','Above-award rates + super'],['📚','Training & Growth','Paid training + career pathways'],['🕐','Flexible Hours','Choose shifts that suit your life'],['🤝','Supportive Culture','Ongoing mentorship and team support'],['🏥','Work Benefits','Salary packaging available'],['🌍','Make a Difference','Change lives every day']].map(([i,t,d])=>`
@@ -1190,11 +1221,11 @@ function renderCareers() {
         <h2 style="font-size:26px;color:#0d5c5c;margin-bottom:8px;">Apply Now</h2>
         <p style="color:#6b8585;margin-bottom:28px;">Submit your application and we'll be in touch within 48 hours.</p>
         <form onsubmit="handleJobApp(event)">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+          <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
             <div><label>First Name *</label><input type="text" name="appFirstName" required placeholder="Jane"/></div>
             <div><label>Last Name *</label><input type="text" name="appLastName" required placeholder="Smith"/></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+          <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
             <div><label>Phone *</label><input type="tel" name="appPhone" required placeholder="04XX XXX XXX"/></div>
             <div><label>Email *</label><input type="email" name="appEmail" required placeholder="jane@example.com"/></div>
           </div>
@@ -1239,7 +1270,7 @@ function handleJobApp(e) {
 // =====================================================
 function renderResources() {
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">Resources & Guides</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">NDIS & Aged Care Resources</h1>
@@ -1247,7 +1278,7 @@ function renderResources() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
+    <div class="section-inner" style="max-width:1200px;margin:0 auto;padding:0 20px;">
       <!-- Download guide CTA -->
       <div style="background:linear-gradient(135deg,#e0f5f5,#e8f4fd);border-radius:20px;padding:36px;margin-bottom:50px;display:flex;align-items:center;gap:30px;flex-wrap:wrap;">
         <div style="font-size:48px;">📘</div>
@@ -1306,7 +1337,7 @@ function handleNewsletter(e) {
 // =====================================================
 function renderContact() {
   return `
-  <section style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
+  <section class="hero-banner" style="background:linear-gradient(135deg,#0d5c5c,#0d7a7a);padding:80px 20px;">
     <div style="max-width:800px;margin:0 auto;text-align:center;">
       <span class="section-tag" style="color:#a8e6e6;">Get in Touch</span>
       <h1 style="font-size:clamp(32px,5vw,52px);color:white;margin-bottom:20px;">We're Here to Help</h1>
@@ -1314,8 +1345,8 @@ function renderContact() {
     </div>
   </section>
   <section class="page-section">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:50px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;" class="section-inner">
+      <div class="contact-grid" style="display:grid;grid-template-columns:1fr 1.5fr;gap:50px;">
         <!-- Info -->
         <div>
           <h2 style="font-size:26px;color:#0d5c5c;margin-bottom:24px;">Contact Information</h2>
@@ -1366,11 +1397,11 @@ function renderContact() {
           <h2 style="font-size:24px;color:#0d5c5c;margin-bottom:6px;">Send Us a Message</h2>
           <p style="color:#6b8585;margin-bottom:24px;font-size:15px;">We'll respond within 2 hours during business hours.</p>
           <form onsubmit="handleContactForm(event)">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
               <div><label>First Name *</label><input type="text" name="firstName" required placeholder="Jane"/></div>
               <div><label>Last Name *</label><input type="text" name="lastName" required placeholder="Smith"/></div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
               <div><label>Phone *</label><input type="tel" name="phone" required placeholder="04XX XXX XXX"/></div>
               <div><label>Email *</label><input type="email" name="email" required placeholder="jane@email.com"/></div>
             </div>
